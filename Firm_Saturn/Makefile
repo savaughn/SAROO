@@ -4,10 +4,10 @@
 # Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
 #
 
-CC	=	sh-elf-gcc
-AS	=	sh-elf-as
-OBJDUMP = sh-elf-objdump
-OBJCOPY = sh-elf-objcopy
+CC	=	sh2-elf-gcc
+AS	=	sh2-elf-as
+OBJDUMP = sh2-elf-objdump
+OBJCOPY = sh2-elf-objcopy
 #LDFLAGS	=	-nostartfiles -nostdlib -T ldscript
 LDFLAGS	=	-nostartfiles -T ldscript
 FLAGS	=	-Wall -m2 -Os -fomit-frame-pointer -std=c99
@@ -49,7 +49,6 @@ $(EXE)	: $(OBJ)
 	rm -f tmp.bin
 
 $(OBJ): main.h smpc.h vdp2.h font_latin.h
-
 
 obj/%.o :	%.c
 		$(CC) -c $< -o $@ $(FLAGS)
