@@ -53,7 +53,7 @@ Version 1.2 still requires an additional pull-up resistor to use the FPGA's AS c
 
 FPGA is developed using Quartus14.0.  
 
-Firm_Saturn is compiled using the SH-ELF compiler that comes with SaturnOrbit.  
+Firm_Saturn is compiled using the [sh2-elf-gcc](https://github.com/kentosama/sh2-elf-gcc) toolchain.  
 Firm_v11 is compiled using MDK4.  
 Firm_V12 is compiled using MDK5.  
 
