@@ -4,10 +4,10 @@
 # Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
 #
 
-CC	=	sh2-elf-gcc
-AS	=	sh2-elf-as
-OBJDUMP = sh2-elf-objdump
-OBJCOPY = sh2-elf-objcopy
+CC	=	sh-elf-gcc
+AS	=	sh-elf-as
+OBJDUMP = sh-elf-objdump
+OBJCOPY = sh-elf-objcopy
 #LDFLAGS	=	-nostartfiles -nostdlib -T ldscript
 LDFLAGS	=	-nostartfiles -T ldscript
 FLAGS	=	-Wall -m2 -Os -fomit-frame-pointer -std=c99
@@ -45,10 +45,14 @@ $(EXE)	: $(OBJ)
 	$(CC) $(LDFLAGS) $(OBJ) $(LIBS) -o $(EXE)
 	$(OBJDUMP) -xd $(EXE) > dump.txt
 	$(OBJCOPY) -O binary $(EXE) tmp.bin
-	cat tmp.bin font_cjk.bin >ssfirm.bin
-	rm -f tmp.bin
+#	cat tmp.bin font_cjk.bin >ssfirm.bin
+	copy /b tmp.bin+font_cjk.bin ssfirm.bin
+#	rm -f tmp.bin
+	del tmp.bin
+	@echo "ssfirm.bin created"
 
 $(OBJ): main.h smpc.h vdp2.h font_latin.h
+
 
 obj/%.o :	%.c
 		$(CC) -c $< -o $@ $(FLAGS)
