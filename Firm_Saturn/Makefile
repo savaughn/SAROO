@@ -33,22 +33,39 @@ OBJ	=	obj/crt0.o  \
 		obj/tiny_xm.o \
 		obj/version.o
 
-all	: obj BUILD_VER $(EXE)
+all	: obj BUILD_VER $(EXE) PACKAGE
 
 obj:
 	mkdir obj
 
 BUILD_VER:
+ifeq ($(OS),Windows_NT)
+	@echo "Windows detected, skipping version.c"
+else
 	touch version.c
+endif
+	
 
 $(EXE)	: $(OBJ)
 	$(CC) $(LDFLAGS) $(OBJ) $(LIBS) -o $(EXE)
 	$(OBJDUMP) -xd $(EXE) > dump.txt
 	$(OBJCOPY) -O binary $(EXE) tmp.bin
-#	cat tmp.bin font_cjk.bin >ssfirm.bin
-	copy /b tmp.bin+font_cjk.bin ssfirm.bin
-#	rm -f tmp.bin
+
+PACKAGE: $(EXE)
+ifeq ($(OS),Windows_NT)
+	$(MAKE) package_unix
+else
+	$(MAKE) package_unix
+endif
+
+package_win:
+	copy /b tmp.bin+font_cjk.bin ./ssfirm.bin
 	del tmp.bin
+	@echo "ssfirm.bin created"
+
+package_unix:
+	cat tmp.bin font_cjk.bin >ssfirm.bin
+	rm -f tmp.bin
 	@echo "ssfirm.bin created"
 
 $(OBJ): main.h smpc.h vdp2.h font_latin.h
